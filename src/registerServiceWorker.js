@@ -138,7 +138,7 @@ const CACHE_NAME = "static-cache-v2";
 const DATA_CACHE_NAME = "data-cache-v1";
 
 // install
-self.addEventListener("install", function(evt) {
+window.self.addEventListener("install", function(evt) {
   evt.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       console.log("Your files were pre-cached successfully!");
@@ -146,11 +146,11 @@ self.addEventListener("install", function(evt) {
     })
   );
 
-  self.skipWaiting();
+  window.self.skipWaiting();
 });
 
 // activate
-self.addEventListener("activate", function(evt) {
+window.self.addEventListener("activate", function(evt) {
   evt.waitUntil(
     caches.keys().then(keyList => {
       return Promise.all(
@@ -164,11 +164,11 @@ self.addEventListener("activate", function(evt) {
     })
   );
 
-  self.clients.claim();
+  window.self.clients.claim();
 });
 
 // fetch
-self.addEventListener("fetch", function(evt) {
+window.self.addEventListener("fetch", function(evt) {
   if (evt.request.url.includes("/api/")) {
     evt.respondWith(
       caches.open(DATA_CACHE_NAME).then(cache => {
